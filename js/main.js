@@ -12,8 +12,8 @@ const getRandomPositiveInteger = (a, b) => {
 const getRandomElementFromArray = (items) => items[Math.floor(Math.random() * items.length)];
 
 
-// eslint-disable-next-line
 const checkStringLength = (string, length) => string.length <= length;
+checkStringLength('', 0); // eslint no-unused-vars skip
 
 
 const DescriptionConsts = {
@@ -68,8 +68,7 @@ const DescriptionConsts = {
 };
 
 
-// eslint-disable-next-line
-const photoDescriptions = Array.from(
+const getPhotoDescriptions = () => Array.from(
   { length: DescriptionConsts.PHOTO_COUNT },
   (_, i) => ({
     id: i + 1,
@@ -79,3 +78,4 @@ const photoDescriptions = Array.from(
     comments: getRandomPositiveInteger(DescriptionConsts.MIN_COMMENTS, DescriptionConsts.MAX_COMMETNS)
   })
 );
+getPhotoDescriptions(); // eslint no-unused-vars skip
