@@ -1,1 +1,4 @@
-import './miniature.js';
+import { drawMiniatures } from './miniature.js';
+
+
+drawMiniatures();
