@@ -1,4 +1,4 @@
-import { getPhotoDescriptions } from './data.js';
+import { drawMiniatures } from './miniature.js';
 
 
-getPhotoDescriptions();
+drawMiniatures();
