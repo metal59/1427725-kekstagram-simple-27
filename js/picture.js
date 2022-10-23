@@ -1,7 +1,7 @@
 import { getPhotoDescriptions } from './data.js';
 
 
-const drawMiniatures = () => {
+const drawPictures = () => {
   const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
   const pictureFragment = document.createDocumentFragment();
   const photoDescriptions = getPhotoDescriptions();
@@ -18,4 +18,4 @@ const drawMiniatures = () => {
   document.querySelector('.pictures').appendChild(pictureFragment);
 };
 
-export { drawMiniatures };
+export { drawPictures };
