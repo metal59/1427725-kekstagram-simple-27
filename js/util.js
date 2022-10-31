@@ -8,11 +8,10 @@ const getRandomPositiveInteger = (a, b) => {
   return Math.floor(result);
 };
 
-
 const getRandomElementFromArray = (items) => items[Math.floor(Math.random() * items.length)];
-
 
 const checkStringLength = (string, length) => string.length <= length;
 
+const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export { getRandomPositiveInteger, getRandomElementFromArray, checkStringLength };
+export { getRandomPositiveInteger, getRandomElementFromArray, checkStringLength, isEscapeKey };
