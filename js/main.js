@@ -1,4 +1,6 @@
-import { drawMiniatures } from './miniature.js';
+import { drawPictures } from './picture.js';
+import { initUpload } from './upload.js';
 
 
-drawMiniatures();
+drawPictures();
+initUpload();
