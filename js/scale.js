@@ -34,6 +34,7 @@ const resetScale = () => {
 const initScale = () => {
   smallerButton.addEventListener('click', onSmallerButtonClick);
   biggerButton.addEventListener('click', onBiggerButtonClick);
+  resetScale();
 };
 
 export { initScale, resetScale };
