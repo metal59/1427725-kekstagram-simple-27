@@ -1,12 +1,15 @@
-import { isEscapeKey} from './util.js';
-import { resetScale} from './scale.js';
+import { isEscapeKey, showError, showSuccess } from './util.js';
+import { resetScale } from './scale.js';
+import { resetEffects } from './effect.js';
+import { sendData } from './api.js';
 
 
-const body = document.querySelector('body ');
+const bodyElement = document.body;
 const imgUploadOverlay = document.querySelector('.img-upload__overlay');
-const form = document.querySelector('#upload-select-image');
-const inputFile = form.querySelector('#upload-file');
+const uploadForm = document.querySelector('#upload-select-image');
+const inputFile = uploadForm.querySelector('#upload-file');
 const uploadCancel = document.querySelector('#upload-cancel');
+const uploadSubmit = uploadForm.querySelector('.img-upload__submit');
 
 const onPopupEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -25,22 +28,23 @@ const onCancelClick = () => {
 
 function openModal() {
   imgUploadOverlay.classList.remove('hidden');
-  body.classList.add('modal-open');
+  bodyElement.classList.add('modal-open');
 
   document.addEventListener('keydown', onPopupEscKeydown);
 }
 
 function closeModal() {
   imgUploadOverlay.classList.add('hidden');
-  body.classList.remove('modal-open');
+  bodyElement.classList.remove('modal-open');
   resetForm();
 
   document.removeEventListener('keydown', onPopupEscKeydown);
 }
 
 function resetForm() {
-  form.reset();
+  uploadForm.reset();
   resetScale();
+  resetEffects();
 }
 
 const initUpload = () => {
@@ -48,4 +52,34 @@ const initUpload = () => {
   uploadCancel.addEventListener('click', onCancelClick);
 };
 
-export { initUpload };
+const blockSubmitButton = () => {
+  uploadSubmit.disabled = true;
+  uploadSubmit.textContent = 'Отправка...';
+};
+
+const unblockSubmitButton = () => {
+  uploadSubmit.disabled = false;
+  uploadSubmit.textContent = 'Отправить';
+};
+
+const setUserFormSubmit = (onSuccess) => {
+  uploadForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    blockSubmitButton();
+    sendData(
+      () => {
+        onSuccess();
+        showSuccess('Успешно');
+        unblockSubmitButton();
+      },
+      () => {
+        showError('Не удалось отправить форму. Попробуйте ещё раз');
+        unblockSubmitButton();
+      },
+      new FormData(evt.target),
+    );
+  });
+};
+
+export { initUpload, closeModal, setUserFormSubmit };
