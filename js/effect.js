@@ -1,5 +1,6 @@
 const image = document.querySelector('.img-upload__preview img');
 const form = document.querySelector('.img-upload__form');
+const sliderInput = document.querySelector('.effect-level');
 const sliderElement = document.querySelector('.effect-level__slider');
 const effectLevel = document.querySelector('.effect-level__value');
 
@@ -58,7 +59,7 @@ let currentEffect = DEFAULT_EFFECT;
 const isDefault = () => currentEffect === DEFAULT_EFFECT;
 
 const recalculateSlider = () => {
-  sliderElement.classList.remove('hidden');
+  sliderInput.classList.remove('hidden');
   sliderElement.noUiSlider.updateOptions({
     range: {
       min: currentEffect.min,
@@ -69,7 +70,7 @@ const recalculateSlider = () => {
   });
 
   if (isDefault()) {
-    sliderElement.classList.add('hidden');
+    sliderInput.classList.add('hidden');
   }
 };
 
