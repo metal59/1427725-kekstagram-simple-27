@@ -1,4 +1,4 @@
-import { isEscapeKey, showError, showSuccess } from './util.js';
+import { isEscapeKey, MessageType, showMessage } from './util.js';
 import { resetScale } from './scale.js';
 import { resetEffects } from './effect.js';
 import { sendData } from './api.js';
@@ -70,11 +70,11 @@ const setUserFormSubmit = (onSuccess) => {
     sendData(
       () => {
         onSuccess();
-        showSuccess('Успешно');
+        showMessage(MessageType.SUCCESS);
         unblockSubmitButton();
       },
       () => {
-        showError('Не удалось отправить форму. Попробуйте ещё раз');
+        showMessage(MessageType.ERROR);
         unblockSubmitButton();
       },
       new FormData(evt.target),

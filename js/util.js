@@ -37,67 +37,38 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-
 const errorMessageTemplate = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
-const errorMessageInner = errorMessageTemplate.querySelector('.error__inner');
-const errorMessageButton = errorMessageTemplate.querySelector('.error__button');
-
 const successMessageTemplate = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
-const successMessageInner = successMessageTemplate.querySelector('.success__inner');
-const successMessageButton = successMessageTemplate.querySelector('.success__button');
 
-const showError = () => {
-  document.body.append(errorMessageTemplate);
-  closeErrorMessage();
+const MessageType = {
+  ERROR: errorMessageTemplate,
+  SUCCESS: successMessageTemplate,
 };
 
-const showSuccess = () => {
-  document.body.append(successMessageTemplate);
-  closeSuccessMessage();
-};
-
-const onErrorMessageEscKeydown = (evt) => {
+const onMessageEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    document.body.removeChild(errorMessageTemplate);
+    hideMessage();
   }
 };
 
-const onSuccessMessageEscKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    document.body.removeChild(successMessageTemplate);
-  }
+const onOverlayClick = () => {
+  hideMessage();
 };
 
-const onErrorMessageClickClose = (evt) => {
-  const onOutSideClick = evt.composedPath().includes(errorMessageInner);
-  if (!onOutSideClick) {
-    document.body.removeChild(errorMessageTemplate);
-  }
+const showMessage = (messageType) => {
+  document.addEventListener('keydown', onMessageEscKeydown);
+  document.addEventListener('click', onOverlayClick);
+  document.body.append(messageType);
+  document.body.style.overflow = 'hidden';
 };
 
-const onSuccessMessageClickClose = (evt) => {
-  const onOutSideClick = evt.composedPath().includes(successMessageInner);
-  if (!onOutSideClick) {
-    document.body.removeChild(successMessageTemplate);
-  }
-};
-
-function closeErrorMessage () {
-  errorMessageButton.addEventListener('click', () => {
-    document.body.removeChild(errorMessageTemplate);
-  });
-  document.addEventListener('keydown', onErrorMessageEscKeydown, { once: true });
-  document.addEventListener('click', onErrorMessageClickClose);
+function hideMessage() {
+  const messageElement = document.body.querySelector('.error') || document.body.querySelector('.success');
+  messageElement.remove();
+  document.removeEventListener('keydown', onMessageEscKeydown);
+  document.removeEventListener('click', onOverlayClick);
+  document.body.style.overflow = 'auto';
 }
 
-function closeSuccessMessage () {
-  successMessageButton.addEventListener('click', () => {
-    document.body.removeChild(successMessageTemplate);
-  });
-  document.addEventListener('keydown', onSuccessMessageEscKeydown);
-  document.addEventListener('click', onSuccessMessageClickClose);
-}
-
-export { getRandomPositiveInteger, getRandomElementFromArray, checkStringLength, isEscapeKey, showAlert, showError, showSuccess };
+export { getRandomPositiveInteger, getRandomElementFromArray, checkStringLength, isEscapeKey, showAlert, MessageType, showMessage };
